@@ -10,7 +10,7 @@ public class EnemySpawner : MonoBehaviour
     private GameObject _cloneEnemy;   
     private Transform[] _points = new Transform[5];
 
-    public void Start()
+    private void Start()
     {      
         for (int i = 0; i < _enemySpawner.childCount; i++) 
         {
@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine(SpawnEnemy());
     }
     
-    public IEnumerator SpawnEnemy()
+    private IEnumerator SpawnEnemy()
     {
         while(true)
         {
