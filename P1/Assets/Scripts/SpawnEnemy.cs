@@ -5,13 +5,10 @@ using UnityEngine;
 public class SpawnEnemy : MonoBehaviour
 {
     [SerializeField] private GameObject _enemy;
-    [SerializeField] private Color _newColor;
     private float _spawnRate = 2;
     private float[] _enemyPointsX = new float[5];
     private float[] _enemyPointsY = new float[5];
     private GameObject _cloneEnemy;
-
-    
 
     void Start()
     {
@@ -34,6 +31,7 @@ public class SpawnEnemy : MonoBehaviour
         if (_spawnRate <= 0)
         {
             int RandonValue = Random.Range(0, 5);
+            
             if (_cloneEnemy != null)
             {
                 Destroy(_cloneEnemy.gameObject);
