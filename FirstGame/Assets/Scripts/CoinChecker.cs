@@ -9,15 +9,12 @@ public class CoinChecker : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         ;
-        var Player = collision.gameObject.GetComponent<Entity>();
+        var Player = collision.gameObject.GetComponent<Coin>();
 
-        if (Player && collision.gameObject.name == "Coin")
+        if (Player)
         {
             Player.DestoyEntity();
             CoinGoal -= 1;
         }
-
-        if (CoinGoal == 0)
-            Debug.Log("WIN");
     }
 }
