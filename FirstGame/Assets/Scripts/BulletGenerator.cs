@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Bullet))]
+
 public class BulletGenerator : MonoBehaviour
 {
     [SerializeField] private float _bulletVelocity = 20f;
     [SerializeField] private GameObject _player;
     [SerializeField] private Bullet _bullet;
 
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -16,11 +18,11 @@ public class BulletGenerator : MonoBehaviour
 
             if (_player.GetComponent<SpriteRenderer>().flipX == true)
             {
-                _newBullet.GetComponent<Bullet>().Rigidbody2D.velocity = transform.right * -_bulletVelocity;
+                _newBullet.CachedRigidbody2D.velocity = transform.right * _bulletVelocity * -1;
             }
             else
             {
-                _newBullet.GetComponent<Bullet>().Rigidbody2D.velocity = transform.right * _bulletVelocity;
+                _newBullet.CachedRigidbody2D.velocity = transform.right * _bulletVelocity;
             }
         }
     }

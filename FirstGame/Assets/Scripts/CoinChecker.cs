@@ -1,20 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CoinChecker : MonoBehaviour
 {
-    [SerializeField] private int CoinGoal = 3;
+    [SerializeField] private int _coinGoal = 3;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        ;
-        var Player = collision.gameObject.GetComponent<Coin>();
-
-        if (Player)
+        if (collision.gameObject.TryGetComponent(out Coin coin))
         {
-            Player.DestoyEntity();
-            CoinGoal -= 1;
+            coin.DestoyEntity();
+            _coinGoal -= 1;
         }
     }
 }

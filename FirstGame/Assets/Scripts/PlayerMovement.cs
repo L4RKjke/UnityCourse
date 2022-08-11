@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))] 
+[RequireComponent(typeof(Animator))]
+
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private GameObject _player;
@@ -12,9 +15,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _speed;
     [SerializeField] private Transform BulletGenerator;
-    private bool _isGraunded = true;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
+    private const string _jumpTrigger = "jump";
+    private const string _isRunning = "isRunning";
 
 
     private void Start()
@@ -31,11 +35,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        CheckGround();
-
-        if (Input.GetKeyDown(KeyCode.Space) && _isGraunded)
+        if (Input.GetKeyDown(KeyCode.Space) && CheckGround())
         {
-            _animator.SetTrigger("jump");
+            _animator.SetTrigger(_jumpTrigger);
             _rigidbody2D.AddForce(Vector2.up * _jumpForce);
         }
     }
@@ -44,11 +46,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
         {
-            _animator.SetBool("isRunning", true);
+            _animator.SetBool(_isRunning, true);
         }
         else
         {
-            _animator.SetBool("isRunning", false);
+            _animator.SetBool(_isRunning, false);
         }
 
         if(Input.GetKey(KeyCode.D))
@@ -63,8 +65,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void CheckGround()
+    private bool CheckGround()
     {
-        _isGraunded = Physics2D.OverlapCircle(_groundCheck.position, _checkRadious, _ground);
+        return Physics2D.OverlapCircle(_groundCheck.position, _checkRadious, _ground);
     }
 }

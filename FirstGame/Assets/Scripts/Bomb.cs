@@ -4,11 +4,9 @@ public class Bomb : MonoBehaviour
 {
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var Player = collision.gameObject.GetComponent<Player>();
-
-        if (Player)
+        if (collision.gameObject.TryGetComponent(out Player player))
         {
-            Player.DestoyEntity();
+            player.DestoyEntity();
             Destroy(gameObject);
         }
     }
