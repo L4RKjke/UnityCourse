@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))] 
@@ -29,45 +27,62 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
-        {
-            Run(true);
-        }
-        else
-        {
-            Run(false);
-        }
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
+            {
+                AnimateRunning();
+            }
+            else
+            {
+                StopAnimateRunning();
+            }
 
-        if (Input.GetKeyDown(KeyCode.Space) && CheckGround())
-        {
-            Jump();
-        }
+            if (Input.GetKey(KeyCode.D))
+            {
+                RunRight();
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                RunLeft();
+            }       
+            if  (Input.GetKeyDown(KeyCode.Space))
+            {
+                Jump();
+            }
     }
 
     private void Jump()
     {
-        _animator.SetTrigger(_jumpTrigger);
-        _rigidbody2D.AddForce(Vector2.up * _jumpForce);
+        if (CheckGround())
+        {
+            _animator.SetTrigger(_jumpTrigger);
+            _rigidbody2D.AddForce(Vector2.up * _jumpForce);
+        }
     }
 
-    private void Run(bool isRunning)
+    private void RunLeft()
     {
-        _animator.SetBool(_isRunning, isRunning);
+        transform.Translate(-1 * _speed * Time.deltaTime, 0, 0);
+        _spriteRenderer.flipX = true;
+    }
 
-        if(Input.GetKey(KeyCode.D))
-        {
-            transform.Translate(_speed * Time.deltaTime, 0, 0);
-            _spriteRenderer.flipX = false;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Translate(-1 * _speed * Time.deltaTime, 0, 0);
-            _spriteRenderer.flipX = true;
-        }
+    private void RunRight()
+    {
+        transform.Translate(_speed * Time.deltaTime, 0, 0);
+        _spriteRenderer.flipX = false;
     }
 
     private bool CheckGround()
     {
         return Physics2D.OverlapCircle(_groundCheck.position, _checkRadious, _ground);
+    }
+
+    private void AnimateRunning()
+    {
+        _animator.SetBool(_isRunning, true);
+    }
+
+    private void StopAnimateRunning()
+    {
+        _animator.SetBool(_isRunning, false);
     }
 }
