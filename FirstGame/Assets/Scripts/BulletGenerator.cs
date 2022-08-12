@@ -1,29 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Bullet))]
+[RequireComponent(typeof(SpriteRenderer))]
 
 public class BulletGenerator : MonoBehaviour
 {
-    [SerializeField] private float _bulletVelocity = 20f;
     [SerializeField] private GameObject _player;
     [SerializeField] private Bullet _bullet;
+    private SpriteRenderer _playerSpriteRenderer;
+    private int _bulletLeftDirection = 0;
+    private int _bulletRightDirection = 180;
+
+    private void Start()
+    {
+        _playerSpriteRenderer = _player.GetComponent<SpriteRenderer>();
+    }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            var _newBullet = Instantiate(_bullet, transform.position, transform.rotation);
-
-            if (_player.GetComponent<SpriteRenderer>().flipX == true)
+            if(_playerSpriteRenderer.flipX)
             {
-                _newBullet.CachedRigidbody2D.velocity = transform.right * _bulletVelocity * -1;
+                CreateBullet(_bulletRightDirection);
             }
             else
             {
-                _newBullet.CachedRigidbody2D.velocity = transform.right * _bulletVelocity;
+                CreateBullet(_bulletLeftDirection);
             }
         }
+    }
+
+    private void CreateBullet(float angel)
+    {
+        Instantiate(_bullet, transform.position, Quaternion.Euler(new Vector3(0, 0, angel)));
     }
 }

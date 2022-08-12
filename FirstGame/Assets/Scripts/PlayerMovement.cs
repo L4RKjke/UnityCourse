@@ -29,29 +29,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        Run();
-        Jump();
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
+        {
+            Run(true);
+        }
+        else
+        {
+            Run(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && CheckGround())
+        {
+            Jump();
+        }
     }
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && CheckGround())
-        {
-            _animator.SetTrigger(_jumpTrigger);
-            _rigidbody2D.AddForce(Vector2.up * _jumpForce);
-        }
+        _animator.SetTrigger(_jumpTrigger);
+        _rigidbody2D.AddForce(Vector2.up * _jumpForce);
     }
 
-    private void Run()
+    private void Run(bool isRunning)
     {
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
-        {
-            _animator.SetBool(_isRunning, true);
-        }
-        else
-        {
-            _animator.SetBool(_isRunning, false);
-        }
+        _animator.SetBool(_isRunning, isRunning);
 
         if(Input.GetKey(KeyCode.D))
         {

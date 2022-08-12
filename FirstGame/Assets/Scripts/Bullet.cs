@@ -1,34 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+[RequireComponent(typeof(Rigidbody2D))]
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] GameObject _bullet;
-    private Rigidbody2D _rigidbody2D = null;
+    [SerializeField] private GameObject _bullet;
+    [SerializeField] private float _bulletSpeed;
 
-    public Rigidbody2D CachedRigidbody2D
+    public Rigidbody2D Rigidbody2d { get; private set; }
+
+    private void Start()
     {
-        get
-        {
-            if (!_rigidbody2D)
-            {
-                _rigidbody2D = GetComponent<Rigidbody2D>();
-            }
-            return _rigidbody2D;
-        }
+        Rigidbody2d = _bullet.GetComponent<Rigidbody2D>();
+        Rigidbody2d.velocity = transform.right * _bulletSpeed; 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var Entity = collision.gameObject.GetComponent<Entity>();
-
-        if (Entity)
+        if (collision.gameObject.TryGetComponent(out Entity entity))
         {
-            Entity.DestoyEntity();
+            entity.DestoyEntity();
         }
         Destroy(gameObject);
     }
 }
-
-
