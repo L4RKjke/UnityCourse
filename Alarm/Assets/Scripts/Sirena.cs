@@ -17,7 +17,7 @@ public class Sirena : MonoBehaviour
         _audioSource.volume = _currentSVolume;
     }
 
-        public void ActivateAlarm()
+    public void ActivateAlarm()
     {
         _currentSVolume = Mathf.MoveTowards(_currentSVolume, _maxStrength, _recoveryRate * Time.deltaTime);
     }
