@@ -8,7 +8,6 @@ public class EnemyDetector : MonoBehaviour
 
     private void Update()
     {
-
         if (_isSomebodyIn)
         {
             _sirena.ActivateAlarm();
