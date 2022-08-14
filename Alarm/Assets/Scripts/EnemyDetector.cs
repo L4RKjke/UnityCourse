@@ -6,10 +6,6 @@ public class EnemyDetector : MonoBehaviour
     [SerializeField] private Sirena _sirena;
     private bool _isSomebodyIn = false;
 
-    private void Start()
-    {
-    }
-
     private void Update()
     {
 
