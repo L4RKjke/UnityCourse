@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterMovement : MonoBehaviour
 {
     [SerializeField] private float _speed;
+
     private SpriteRenderer _spriteRenderer;
 
     private void Start()

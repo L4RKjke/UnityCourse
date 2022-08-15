@@ -3,9 +3,8 @@ using UnityEngine;
 public class EnemyDetector : MonoBehaviour
 {
     [SerializeField] private GameObject _player;
-    [SerializeField] private Sirena _sirena;
-    private bool _isSomebodyIn = false;
 
+<<<<<<< Updated upstream
     private void Update()
     {
         if (_isSomebodyIn)
@@ -15,14 +14,17 @@ public class EnemyDetector : MonoBehaviour
         else
             _sirena.DeactivateAlarm();
     }
+=======
+    public bool IsSomebodyIn { get; private set; } = false;
+>>>>>>> Stashed changes
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        _isSomebodyIn = collision.TryGetComponent(out Character player);    
+        IsSomebodyIn = (collision.TryGetComponent(out Character player));
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        _isSomebodyIn = !collision.TryGetComponent(out Character player);
+        IsSomebodyIn = !(collision.TryGetComponent(out Character player));
     }
 }

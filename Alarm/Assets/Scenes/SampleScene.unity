@@ -634,7 +634,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 1213592653}
-  _sirena: {fileID: 3646840062430400497}
 --- !u!1 &1746131046
 GameObject:
   m_ObjectHideFlags: 0
@@ -1390,6 +1389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 140521325}
+  ScanningArea: {fileID: 1453885680}
 --- !u!212 &7230549342082530695
 SpriteRenderer:
   m_ObjectHideFlags: 0
