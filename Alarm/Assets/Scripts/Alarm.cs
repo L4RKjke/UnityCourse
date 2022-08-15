@@ -10,6 +10,7 @@ public class Alarm : MonoBehaviour
     private IEnumerator _corutine;
     private float _recoveryRate = 0.1f;
     private float _maxStrength = 1;
+    private float _minStrength = 0;
 
     private void Start()
     {
@@ -22,6 +23,9 @@ public class Alarm : MonoBehaviour
     {
         while (true)
         {
+            if (_audioSource.volume == _maxStrength && isSomebodyIn || _audioSource.volume == _minStrength && !isSomebodyIn)
+                break;
+
             if (isSomebodyIn)
             {
                 yield return _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _maxStrength, _recoveryRate * Time.deltaTime);
