@@ -15,7 +15,6 @@ public class Alarm : MonoBehaviour
     {
         _enemyDetector = ScanningArea.GetComponent<EnemyDetector>();
         _audioSource.volume = 0f;
-
     }
 
     private void Update()
@@ -31,12 +30,15 @@ public class Alarm : MonoBehaviour
         while (true)
         {
             if (_audioSource.volume == _maxStrength && _enemyDetector.IsSomebodyIn || _audioSource.volume == _minStrength && !_enemyDetector.IsSomebodyIn)
+            
                 break;
 
             if (_enemyDetector.IsSomebodyIn)
+            
                 yield return _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _maxStrength, _recoveryRate * Time.deltaTime);
                
-            else           
+            else
+            
                 yield return _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _maxStrength, -_recoveryRate * Time.deltaTime);       
         }
     }
