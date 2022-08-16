@@ -8,13 +8,13 @@ public class EnemyDetector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (EnemyInZone is not null)
-            EnemyInZone.Invoke((collision.TryGetComponent(out Character player)));
+        if ((collision.TryGetComponent(out Character player)))
+            EnemyInZone?.Invoke(player);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (EnemyInZone is not null)
-            EnemyInZone.Invoke(!(collision.TryGetComponent(out Character player)));
+        if ((collision.TryGetComponent(out Character player)))
+            EnemyInZone?.Invoke(!player);
     }
 }

@@ -633,7 +633,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 755eaf24def2f8a448c4517efe3f5604, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 1213592653}
 --- !u!1 &1746131046
 GameObject:
   m_ObjectHideFlags: 0
@@ -1389,7 +1388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 140521325}
-  _scanningArea: {fileID: 1453885680}
+  _enemyDetector: {fileID: 1453885684}
 --- !u!212 &7230549342082530695
 SpriteRenderer:
   m_ObjectHideFlags: 0

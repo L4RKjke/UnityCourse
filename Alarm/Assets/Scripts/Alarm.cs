@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using System;
 
 public class Alarm : MonoBehaviour
 {
@@ -10,21 +9,35 @@ public class Alarm : MonoBehaviour
     private Coroutine _corutine;
     private float _recoveryRate = 0.1f;
     private float _maxStrength = 1;
+    private float _minStrength = 0;
 
     private void Start()
     {
         _audioSource.volume = 0f;
-        _enemyDetector.EnemyInZone += (isSomebodyIn)  => {_corutine = StartCoroutine(SetVolume(_maxStrength * Convert.ToInt32(isSomebodyIn)));};
+        _enemyDetector.EnemyInZone += StartNewCourutine;
     }
 
     private IEnumerator SetVolume(float target)
     {
-        if (_corutine is not null)
-            StopCoroutine(_corutine);
-
         while (_audioSource.volume != target)
         {
             yield return _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, target, _recoveryRate * Time.deltaTime);
+        }
+    }
+
+    private void StartNewCourutine(bool isSomebodyIn) 
+    {
+        if (_corutine is not null)
+            StopCoroutine(_corutine);
+
+        if (isSomebodyIn)
+        {
+            _corutine = StartCoroutine(SetVolume(_maxStrength));
+        }    
+
+        else
+        {
+            _corutine = StartCoroutine(SetVolume(_minStrength));
         }
     }
 }
