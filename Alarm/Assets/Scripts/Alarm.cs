@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ public class Alarm : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private EnemyDetector _enemyDetector;
+
 
     private Coroutine _corutine;
     private float _recoveryRate = 0.1f;
@@ -14,7 +16,6 @@ public class Alarm : MonoBehaviour
     private void Start()
     {
         _audioSource.volume = 0f;
-        _enemyDetector.EnemyInZone += StartNewCourutine;
     }
 
     private IEnumerator SetVolume(float target)
@@ -39,5 +40,15 @@ public class Alarm : MonoBehaviour
         {
             _corutine = StartCoroutine(SetVolume(_minStrength));
         }
+    }
+
+    private void OnDisable()
+    {
+        _enemyDetector.EnemyInZone -= StartNewCourutine;
+    }
+
+    private void OnEnable()
+    {
+        _enemyDetector.EnemyInZone += StartNewCourutine;
     }
 }
