@@ -1,49 +1,30 @@
 using System.Collections;
 using UnityEngine;
+using System;
 
 public class Alarm : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private GameObject _scanningArea;
+    [SerializeField] private EnemyDetector _enemyDetector;
 
-    private EnemyDetector _enemyDetector;
-    private IEnumerator _corutine;
+    private Coroutine _corutine;
     private float _recoveryRate = 0.1f;
     private float _maxStrength = 1;
-    private float _minStrength = 0;
 
     private void Start()
     {
-        _enemyDetector = _scanningArea.GetComponent<EnemyDetector>();
         _audioSource.volume = 0f;
-        _enemyDetector.EnemyInZone += StartNewVolumeCoroutin;
+        _enemyDetector.EnemyInZone += (isSomebodyIn)  => {_corutine = StartCoroutine(SetVolume(_maxStrength * Convert.ToInt32(isSomebodyIn)));};
     }
 
-    private IEnumerator SetVolume(bool isSomebodyIn)
-    {
-        while (true)
-        {
-            if (_audioSource.volume == _maxStrength && isSomebodyIn || _audioSource.volume == _minStrength && !isSomebodyIn)
-                break;
-
-            if (isSomebodyIn)
-            {
-                yield return _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _maxStrength, _recoveryRate * Time.deltaTime);
-            }
-
-            else
-            {
-                yield return _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _maxStrength, -_recoveryRate * Time.deltaTime);
-            }           
-        }
-    }
-
-    private void StartNewVolumeCoroutin(bool isSomebodyIn)
+    private IEnumerator SetVolume(float target)
     {
         if (_corutine is not null)
             StopCoroutine(_corutine);
 
-        _corutine = SetVolume(isSomebodyIn);
-        StartCoroutine(_corutine);
+        while (_audioSource.volume != target)
+        {
+            yield return _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, target, _recoveryRate * Time.deltaTime);
+        }
     }
 }
