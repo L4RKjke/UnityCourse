@@ -7,7 +7,6 @@ public class Alarm : MonoBehaviour
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private EnemyDetector _enemyDetector;
 
-
     private Coroutine _corutine;
     private float _recoveryRate = 0.1f;
     private float _maxStrength = 1;
