@@ -4,34 +4,29 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float _health = 100;
 
-    public delegate void PlayerAtackedEvent(float argument);
+    public delegate void PlayerHealthEvent(float argument);
 
-    public delegate void PlayerHealedEvent(float argument);
+    public event PlayerHealthEvent PlayerChangeHealth;
 
-    public event PlayerAtackedEvent PlayerAtacked;
-
-    public event PlayerHealedEvent PlayerHealed;
-
-    private readonly float _damage = 10;
-    private readonly float _heal = 10;
-    private readonly float _maxHealth = 100;
     private readonly float _minHealth = 0;
 
-    public void TakeDamage()
+    public float MaxHealth { get; private set; } = 100;
+
+    public void TakeDamage(float damageValue)
     {
-        if (_health > _minHealth && _health > 0)
+        if (_health > _minHealth && damageValue >= 0)
         {
-            _health -= _damage;
-            PlayerAtacked?.Invoke(_health);
+            _health -= damageValue;
+            PlayerChangeHealth?.Invoke(_health);
         }
     }
 
-    public void Heal()
+    public void Heal(float healValue)
     {
-        if (_health < _maxHealth && _health > 0)
+        if (_health < MaxHealth && _health != _minHealth && healValue >= 0)
         {
-            _health += _heal;
-            PlayerHealed?.Invoke(_health);
+            _health += healValue;
+            PlayerChangeHealth?.Invoke(_health);
         }
     }
 }

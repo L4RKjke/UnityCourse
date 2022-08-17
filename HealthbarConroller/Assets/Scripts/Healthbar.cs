@@ -12,14 +12,12 @@ public class Healthbar : MonoBehaviour
 
     private void OnEnable()
     {
-        _player.PlayerAtacked += ChangeHealthbar;
-        _player.PlayerHealed += ChangeHealthbar;
+        _player.PlayerChangeHealth += ChangeHealthbar;
     }
 
     private void OnDisable()
     {
-        _player.PlayerAtacked -= ChangeHealthbar;
-        _player.PlayerHealed -= ChangeHealthbar;
+        _player.PlayerChangeHealth -= ChangeHealthbar;
     }
 
     private void ChangeHealthbar(float value)
@@ -27,7 +25,7 @@ public class Healthbar : MonoBehaviour
         if (_corutine is not null)
             StopCoroutine(_corutine);
 
-        _corutine = StartCoroutine(SetHealth(value/100));
+        _corutine = StartCoroutine(SetHealth(value/ _player.MaxHealth));
     }
 
     private IEnumerator SetHealth(float target)
