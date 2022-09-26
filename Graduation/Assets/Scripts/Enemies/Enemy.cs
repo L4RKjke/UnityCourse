@@ -4,6 +4,7 @@ using UnityEngine.Events;
 abstract public class Enemy : MonoBehaviour
 {
     [SerializeField] private int _health;
+    [SerializeField] private GameObject _enemy;
 
     public delegate void PlayerHealthEvent(float argument);
 
@@ -30,8 +31,8 @@ abstract public class Enemy : MonoBehaviour
 
         if (Health == 0)
         {
-            EnemyDie?.Invoke(this);
-            Destroy(gameObject);
+            EnemyDie.Invoke(this);
+            Destroy(_enemy);
         }
     }
 }

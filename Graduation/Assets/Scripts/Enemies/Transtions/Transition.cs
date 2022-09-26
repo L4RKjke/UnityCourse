@@ -6,7 +6,6 @@ abstract public class Transition : MonoBehaviour
 
     protected Player Target { get; private set; }
 
-
     public bool NeedTransit { get; protected set; }
 
     public State TargetState => _targetState;

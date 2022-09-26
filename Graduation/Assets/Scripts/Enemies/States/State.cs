@@ -22,7 +22,6 @@ abstract public class State : MonoBehaviour
 
     public void Exit()
     {
-
         foreach (var transition in _transitions)
             transition.enabled = false;
 

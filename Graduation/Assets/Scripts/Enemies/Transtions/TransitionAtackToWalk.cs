@@ -11,11 +11,10 @@ public class TransitionAtackToWalk : Transition
         _atackRange += Random.Range(-_spreadRange, _spreadRange);
     }
 
-
     private void Update()
     {
         if (Target != null)
             if (Vector2.Distance(_enemy.transform.position, Target.transform.position) >= _atackRange)
-            NeedTransit = true;
+                NeedTransit = true;
     }
 }

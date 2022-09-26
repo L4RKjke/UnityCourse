@@ -137,5 +137,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletSpeed: 7
-  _bulletPattern: {fileID: 6704878745272020901}
+  _bulletRigidbody2D: {fileID: 1992328189756994681}
   _damage: 10

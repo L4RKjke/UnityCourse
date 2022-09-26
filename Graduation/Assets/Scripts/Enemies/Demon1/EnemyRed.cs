@@ -1,5 +1,15 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Transform))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(StateSwitcher))]
+[RequireComponent(typeof(TransitionAtackToWalk))]
+[RequireComponent(typeof(TransitionWalkToAtack))]
+[RequireComponent(typeof(TransitionToIdle))]
+[RequireComponent(typeof(AtackState))]
+[RequireComponent(typeof(WalkState))]
+[RequireComponent(typeof(IdleState))]
+
 public class EnemyRed : Enemy
 {
     [SerializeField] private float _speed;
@@ -9,14 +19,17 @@ public class EnemyRed : Enemy
 
     private Player _player;
     private float _timer;
-    private float _shootingRate = 1; 
     private bool _isFire = false;
     private Vector2 _defoaltScale;
     private Vector2 _invertedScale;
     private Transform _transform;
     private Animator _animator;
+
+    private readonly float _shootingRate = 1;
     private readonly string _isShooting = "IsShooting";
-    private Transform _targetTransform;
+    private readonly Transform _targetTransform;
+
+    public Transform EnemyTransform => _transform;
 
     public Player Target => _player;
 
@@ -40,9 +53,9 @@ public class EnemyRed : Enemy
             _timer = _shootingRate;
 
             if (Target.transform.position.x - _shootPoint.position.x < 0)
-                Shoot(GetAngle(Target.transform.position) + 180);
+                Shoot(GetAngle(Target.transform.position, _shootPoint.position) + 180);
             else
-                Shoot(GetAngle(Target.transform.position));
+                Shoot(GetAngle(Target.transform.position, _shootPoint.position));
         }
 
         if (Target != null)
@@ -66,7 +79,8 @@ public class EnemyRed : Enemy
         _animator.SetBool(_isShooting, false);
     }
 
-    private float GetAngle(Vector2 crosshairPosition) => (180 / Mathf.PI) * Mathf.Atan((Target.transform.position.y - _shootPoint.position.y) / (Target.transform.position.x - _shootPoint.position.x));
+    private float GetAngle(Vector2 targetPosition, Vector2 startPosition) => (180 / Mathf.PI) *
+        Mathf.Atan((targetPosition.y - startPosition.y) / (targetPosition.x - startPosition.x));
 
     private void Shoot(float direction)
     {

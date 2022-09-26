@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyRed))]
+
 public class StateSwitcher : MonoBehaviour
 {
     [SerializeField] private State _firstState;
@@ -18,16 +20,12 @@ public class StateSwitcher : MonoBehaviour
     private void Update()
     {
         if (_currentState == null)
-        {
             return;
-        }
 
         var nextState = _currentState.GetState();
 
         if (nextState != null)
-        {
             Transit(nextState);
-        }
     }
 
     public void Transit(State NewState)

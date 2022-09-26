@@ -3,9 +3,11 @@ using UnityEngine;
 public class WalkState : State  
 {
     [SerializeField] private float _speed;
+    [SerializeField] private GameObject _enemy;
 
     private Animator _animator;
-    private const string _isWalking = "IsWalking";
+
+    private readonly string _isWalking = "IsWalking";
 
     private void Update()
     {
@@ -15,7 +17,7 @@ public class WalkState : State
     private void MoveToTarget()
     {
         if (Target != null)
-                transform.position = Vector3.MoveTowards(transform.position, Target.transform.position, _speed * Time.deltaTime);
+            _enemy.transform.position = Vector3.MoveTowards(_enemy.transform.position, Target.transform.position, _speed * Time.deltaTime);
     }
 
     private void OnEnable()

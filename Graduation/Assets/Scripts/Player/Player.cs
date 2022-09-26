@@ -1,9 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using UnityEngine.Events;
+
+[RequireComponent(typeof(Transform))]
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed;
+    [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _crosshair;
     [SerializeField] private Camera _camera;
     [SerializeField] private GameObject _weapon;
@@ -13,61 +17,47 @@ public class Player : MonoBehaviour
     [SerializeField] private int _health;
     [SerializeField] private SpriteRenderer _muzzle;
     [SerializeField] private Animator _muzzleAnimaror;
-    [SerializeField] private GameObject _pauseMenu;
 
-    private AudioSource _audioSource;
     private Transform _transform;
-    private Vector2 _moveDirection;
     private Vector2 _coursorPosition;
-    private Animator _animator;
-    private const string _isWalking = "IsWalking";
-    private const string _shoot = "Shoot";
     private Vector2 _defoaltcale;
     private Vector2 _invertedScale;
     private bool _isFire;
-    private float _timer;
+    private bool _canShoot;
+
+    private readonly string _shoot = "Shoot";
+    private readonly string _waitForDelay = "WaitForDelay";
 
     public delegate void PlayerHealthEvent(float argument);
 
     public event PlayerHealthEvent PlayerChangeHealth;
 
-    public int Health => _health;
+    public UnityAction PlayerDie;
+
+    public int Health => _health; 
 
     public Transform Transform => _transform;
 
     private void Start()
     {
-        _audioSource = GetComponent<AudioSource>();
         _transform = GetComponent<Transform>();
-        _animator = GetComponent<Animator>();
         _invertedScale = new Vector2(-_transform.localScale.x, _transform.localScale.y);
         _defoaltcale = new Vector2(_transform.localScale.x, _transform.localScale.y);
-        _timer = _shootingRate;
-        _pauseMenu.SetActive(false);
+        _canShoot = true;
+        StartCoroutine(_waitForDelay);
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    private void OnDisable()
     {
-        _moveDirection = context.ReadValue<Vector2>();
+        StopCoroutine(_waitForDelay);
     }
 
     public void OnShoot(InputAction.CallbackContext context)
     {    
         if (context.performed || context.started)
-        {
             _isFire = true;
-        }
         else
-        {
             _isFire = false;
-        }   
-
-    }
-
-    public void OnPauseMenu(InputAction.CallbackContext context)
-    {
-        _pauseMenu.SetActive(true);
-        Time.timeScale = 0f;
     }
 
     public void OnMouseMoving(InputAction.CallbackContext context)
@@ -77,29 +67,18 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (_health <= 0)
+        if (_isFire && _canShoot)
         {
-            Destroy(gameObject);
-        }
-
-        if (_timer > 0)
-            _timer -= Time.deltaTime;
-
-        if (_isFire && _timer < 0.01f)
-        {
-            _timer = _shootingRate;
-
             if (_coursorPosition.x - _shootPoint.position.x < 0)
                 Shoot(GetAngle(_coursorPosition) + 180);
             else
                 Shoot(GetAngle(_coursorPosition));
+
+            _canShoot = false;
         }
 
-        Move(_moveDirection);
         SetCrosshairPosition(_coursorPosition);
-
-        if (Vector2.Distance(_weapon.transform.position, _coursorPosition) > 1f)
-            _weapon.transform.rotation = Quaternion.Euler(0f, 0f, GetAngle(_coursorPosition));
+        RotateWeapon();
 
         if (_coursorPosition.x > transform.position.x)
             _transform.localScale = _defoaltcale;      
@@ -116,19 +95,18 @@ public class Player : MonoBehaviour
             _health -= damage;
 
         PlayerChangeHealth?.Invoke(_health);
+
+        if (_health == 0)
+        {
+            PlayerDie?.Invoke();
+            Destroy(gameObject);
+        }
     }
 
-    public void Move(Vector2 direction)
+    private void RotateWeapon()
     {
-        _animator.SetBool(_isWalking, true);
-
-        float scaledMoveSpeed = _moveSpeed * Time.deltaTime;
-
-        if (direction.y == 0 && direction.x == 0)
-            _animator.SetBool(_isWalking, false);
-
-        Vector3 moveDirection = new Vector3(direction.x, direction.y);
-        transform.position += moveDirection * scaledMoveSpeed;
+        if (Vector2.Distance(_weapon.transform.position, _coursorPosition) > 1f)
+            _weapon.transform.rotation = Quaternion.Euler(0f, 0f, GetAngle(_coursorPosition));
     }
 
     private void SetCrosshairPosition(Vector2 position) 
@@ -136,12 +114,22 @@ public class Player : MonoBehaviour
         _crosshair.transform.position = position;
     }
 
-    private float GetAngle(Vector2 crosshairPosition) => (180 / Mathf.PI) * Mathf.Atan((crosshairPosition.y - _shootPoint.position.y) / (crosshairPosition.x - _shootPoint.position.x));
+    private float GetAngle(Vector2 crosshairPosition) => (180 / Mathf.PI) * 
+        Mathf.Atan((crosshairPosition.y - _shootPoint.position.y) / (crosshairPosition.x - _shootPoint.position.x));
 
     private void Shoot(float direction) 
     {
         _muzzleAnimaror.SetTrigger(_shoot);
-        _audioSource.Play(0);
         Instantiate(_bullet, _shootPoint.position, Quaternion.Euler(new Vector3(0, 0, direction)));
+    }
+
+    private IEnumerator WaitForDelay()
+    {
+        while (true)
+        {
+            _canShoot = true;
+
+            yield return new WaitForSeconds(_shootingRate);
+        }            
     }
 }

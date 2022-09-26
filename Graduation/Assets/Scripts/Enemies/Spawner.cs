@@ -11,12 +11,14 @@ public class Spawner : MonoBehaviour
 
     private int _currentNumberOfEnemies;
     private int _enemiesInNewWave = 5;
+    private int _numberOfWave = 1;
+
     private readonly int _minX = 7;
     private readonly int _minY = 5;
     private readonly int _maxX = 20;
     private readonly int _maxY = 18;
     private readonly string _waitForSeconds = "WaitForSeconds";
-    private int _numberOfWave = 1;
+    private readonly int _enemySpriteIndex = 0;
 
     public int NumberOfWave => _numberOfWave;
 
@@ -42,7 +44,6 @@ public class Spawner : MonoBehaviour
             _enemiesInNewWave++;
             SpawnNewEnemies();
         }
-
     }
 
     private void SpawnNewEnemies()
@@ -59,12 +60,15 @@ public class Spawner : MonoBehaviour
         var RandomDirectionX = directions[Random.Range(0, 2)];
         var RandomDirectionY = directions[Random.Range(0, 2)];
 
-        return new Vector2((RandomDirectionX * RandowmSpawnRadiousX) + _character.transform.position.x, (RandomDirectionY * RandowmSpawnRadiousY) + _character.transform.position.y);
+        return new Vector2((RandomDirectionX * RandowmSpawnRadiousX) + _character.transform.position.x,
+            (RandomDirectionY * RandowmSpawnRadiousY) + _character.transform.position.y);
     }
 
     private void SpawnEnemy()
     {
-        var enemy = Instantiate(_template, GetRandomVector(_minX, _minY, _maxX, _maxY), Quaternion.identity).GetComponent<EnemyRed>();
+        var enemy = Instantiate(_template, GetRandomVector(_minX, _minY, _maxX, _maxY),
+            Quaternion.identity).transform.GetChild(_enemySpriteIndex).GetComponent<EnemyRed>();
+
         enemy.Init(_player);
         enemy.EnemyDie += OnEnemyDying;
     }

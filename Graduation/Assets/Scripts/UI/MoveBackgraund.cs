@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MoveBackgraund : MonoBehaviour
 {
     [SerializeField] private Transform _playerTransform;
+    [SerializeField] private PlayerMover _player;
 
     private RawImage _image;
     private float _imagePositionX;
@@ -27,8 +28,8 @@ public class MoveBackgraund : MonoBehaviour
                 var directionX = (_playerTransform.position.x - _prevPositionX);
                 var directionY = (_playerTransform.position.y - _prevPositionY);
 
-                _imagePositionX += directionX * Time.deltaTime * 10;
-                _imagePositionY += directionY * Time.deltaTime * 10;
+                _imagePositionX += directionX * Time.deltaTime * _player.Speed;
+                _imagePositionY += directionY * Time.deltaTime * _player.Speed;
 
                 _image.uvRect = new Rect(_imagePositionX, _imagePositionY, _image.uvRect.width, _image.uvRect.height);
 
