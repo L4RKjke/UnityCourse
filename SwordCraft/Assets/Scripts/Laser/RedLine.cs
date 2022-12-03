@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class RedLine : MonoBehaviour
+public class RedLine : Line
 {
-    [SerializeField] private LineRenderer _lineRenderer;
     [SerializeField] private Transform _start;
     [SerializeField] private Transform _end;
 
@@ -12,12 +11,12 @@ public class RedLine : MonoBehaviour
 
     private void DrowRedLine(float positionZ, int PosId)
     {
-        _lineRenderer.SetPosition(PosId, new Vector3(_xPosition, _height, positionZ));
+        LineRenderer.SetPosition(PosId, new Vector3(_xPosition, _height, positionZ));
     }
 
     public void DrowLine()
     {
-        _lineRenderer.positionCount = _maxPoints;
+        LineRenderer.positionCount = _maxPoints;
 
         DrowRedLine(_start.position.z, 0); 
         DrowRedLine(_end.position.z, 1); 
