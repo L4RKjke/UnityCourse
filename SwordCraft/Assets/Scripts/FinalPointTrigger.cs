@@ -53,20 +53,20 @@ public class FinalPointTrigger : MonoBehaviour
 
     private void SaveLevelData()
     {
-        if (_result.NumberOfStars == 3 && PlayerPrefs.GetInt("MaxHandle") <= _maxHandleIndex)
+        if (_result.NumberOfStars == 3 && PlayerPrefs.GetInt(AllStrings.MaxHandle) <= _maxHandleIndex)
         {
             _finalUI[_finalUI.Length - 1].SetActive(true);
-            PlayerPrefs.SetInt("MaxHandle", PlayerPrefs.GetInt("MaxHandle") + 1);
+            PlayerPrefs.SetInt(AllStrings.MaxHandle, PlayerPrefs.GetInt(AllStrings.MaxHandle + 1));
         }
 
-        if (PlayerPrefs.GetInt("MaxLevel") < _currentLevelIndex)
-            PlayerPrefs.SetInt("MaxLevel", _currentLevelIndex);
+        if (PlayerPrefs.GetInt(AllStrings.MaxLevel) < _currentLevelIndex)
+            PlayerPrefs.SetInt(AllStrings.MaxLevel, _currentLevelIndex);
 
         if (_result.NumberOfStars > PlayerPrefs.GetInt(_currentLevelIndex.ToString()))
             PlayerPrefs.SetInt(_currentLevelIndex.ToString(), _result.NumberOfStars);
 
-        PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") + _wallet.Coins);
-        Leaderboard.SetScore("LeaderboardCoins", PlayerPrefs.GetInt("Coins"));
+        PlayerPrefs.SetInt(AllStrings.Coins, PlayerPrefs.GetInt(AllStrings.Coins) + _wallet.Coins);
+        Leaderboard.SetScore(AllStrings.LeaderboardCoins, PlayerPrefs.GetInt(AllStrings.Coins));
     }
 
     private void AddPoint()

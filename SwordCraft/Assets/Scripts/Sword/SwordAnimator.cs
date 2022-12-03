@@ -8,12 +8,12 @@ public class SwordAnimator : MonoBehaviour
 
     private void OnEnable()
     {
-        _handleAnimator._onTarget += Jump;
+        _handleAnimator.JumpCompleted += Jump;
     }
 
     private void OnDisable()
     {
-        _handleAnimator._onTarget -= Jump;
+        _handleAnimator.JumpCompleted -= Jump;
     }
 
     private void Jump()

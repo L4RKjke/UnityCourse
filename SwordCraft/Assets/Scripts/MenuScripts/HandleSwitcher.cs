@@ -19,7 +19,7 @@ public class HandleSwitcher : MonoBehaviour
             _buttonImages[i].sprite = _handles[i].Image;
         }
 
-        for (int i = 1; i < PlayerPrefs.GetInt("MaxHandle")+1; i++)
+        for (int i = 1; i < PlayerPrefs.GetInt(AllStrings.MaxHandle) +1; i++)
         {
             _buttons[i].interactable = true;
         }
@@ -27,7 +27,7 @@ public class HandleSwitcher : MonoBehaviour
 
     public void OnHandleClick(int buttonId)
     {
-        if (buttonId <= PlayerPrefs.GetInt("MaxHandle"))
-            PlayerPrefs.SetInt("CurrentHandle", buttonId);
+        if (buttonId <= PlayerPrefs.GetInt(AllStrings.MaxHandle))
+            PlayerPrefs.SetInt(AllStrings.CurrentHandle, buttonId);
     }
 }

@@ -21,7 +21,6 @@ public class PlatformMover : MonoBehaviour
     private bool _canMove = true;
     private bool _isButtonPressed = false;
     private int _direction;
-    private MeshRenderer _mesh;
 
     public float FastSpeed { get; private set; } = 3;
 
@@ -29,7 +28,6 @@ public class PlatformMover : MonoBehaviour
 
     private void Start()
     {
-        _mesh = GetComponent<MeshRenderer>();
         _defaultSpeed = _moveSpeed;
     }
 
@@ -46,33 +44,6 @@ public class PlatformMover : MonoBehaviour
         }
 
         MoveToTarget();
-    }
-
-    private void MoveToTarget()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, _target.position.y, _target.position.z), Time.deltaTime * _speed);
-    }
-
-    private void EnableSwordXLimit()
-    {
-        if (transform.position.x > _maxX)
-            transform.position = new Vector3(transform.position.x - (_moveSpeed * Time.deltaTime), transform.position.y, transform.position.z);
-
-        else if(transform.position.x < -_maxX)
-            transform.position = new Vector3(transform.position.x + (_moveSpeed * Time.deltaTime), transform.position.y, transform.position.z);
-    }
-
-    private void MovePlatform(int direction)
-    {
-        transform.position = new Vector3(transform.position.x + (_moveSpeed * Time.deltaTime * _direction), transform.position.y, transform.position.z);
-    }
-
-    private void Move(Vector2 direction)
-    {
-        float scaledMoveSpeed = _moveSpeed * Time.deltaTime;
-        Vector3 moveDirection = new Vector3(direction.x, direction.y);
-
-        transform.position += moveDirection * scaledMoveSpeed;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -103,7 +74,7 @@ public class PlatformMover : MonoBehaviour
         transform.DORotate(new Vector3(0, angel, 0), 0.6f * Time.timeScale, RotateMode.WorldAxisAdd);
     }
 
-    public void SetSlowMoveSpeed() 
+    public void SetSlowMoveSpeed()
     {
         _moveSpeed = _slowMoveSpeed;
     }
@@ -132,5 +103,32 @@ public class PlatformMover : MonoBehaviour
     public void EnableMove()
     {
         _canMove = true;
+    }
+
+    private void MoveToTarget()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, _target.position.y, _target.position.z), Time.deltaTime * _speed);
+    }
+
+    private void EnableSwordXLimit()
+    {
+        if (transform.position.x > _maxX)
+            transform.position = new Vector3(transform.position.x - (_moveSpeed * Time.deltaTime), transform.position.y, transform.position.z);
+
+        else if(transform.position.x < -_maxX)
+            transform.position = new Vector3(transform.position.x + (_moveSpeed * Time.deltaTime), transform.position.y, transform.position.z);
+    }
+
+    private void MovePlatform(int direction)
+    {
+        transform.position = new Vector3(transform.position.x + (_moveSpeed * Time.deltaTime * _direction), transform.position.y, transform.position.z);
+    }
+
+    private void Move(Vector2 direction)
+    {
+        float scaledMoveSpeed = _moveSpeed * Time.deltaTime;
+        Vector3 moveDirection = new Vector3(direction.x, direction.y);
+
+        transform.position += moveDirection * scaledMoveSpeed;
     }
 }

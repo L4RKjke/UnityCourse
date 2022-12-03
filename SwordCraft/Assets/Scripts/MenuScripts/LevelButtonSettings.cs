@@ -30,7 +30,7 @@ public class LevelButtonSettings : MonoBehaviour
                 button.interactable = false;
         }
 
-        _completedLevels = PlayerPrefs.GetInt("MaxLevel");
+        _completedLevels = PlayerPrefs.GetInt(AllStrings.MaxLevel);
 
         for (int i = 1; i < _completedLevels + 1; i++)
         {

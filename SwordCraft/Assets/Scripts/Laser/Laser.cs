@@ -3,27 +3,16 @@ using UnityEngine.Events;
 
 public class Laser : MonoBehaviour
 {
-    [SerializeField] private LineRenderer _lineRenderer;
-    [SerializeField] private Transform _laserFirePoint;
     [SerializeField] private Transform _slicerTransfrom;
     [SerializeField] private Slicer _slicer; 
-    [SerializeField] private GreenLine _greenLine;
-    [SerializeField] private GameObject _redRay;
     [SerializeField] private PlatformMover _model;
-    [SerializeField] private Transform _endPoint;
     [SerializeField] private Transform _startLine;
-    [SerializeField] private Transform _endLine;
     [SerializeField] private DirtController dirtController;
-    [SerializeField] private PlatformMover platformMover;
-    [SerializeField] private GameObject _laser;
-    [SerializeField] private SwordTrigger _firstListener;
-    [SerializeField] private SwordTrigger _secondListener;
-    [SerializeField] private ScoreCounter _points;
     [SerializeField] private PlatformMover _swordMover;
+    [SerializeField] private LineRenderer _lineRenderer;
 
     private int _sliceDirection;
     private bool _isTriggered = false;
-    private RedLine _redLine;
 
     private readonly float _autoAimDistance = 0.05f;
     private readonly float _autoAimSpeed = 12;
@@ -31,33 +20,13 @@ public class Laser : MonoBehaviour
     private readonly int _leftSliceYAngel = 0;
     private readonly int _SliceZangel = 90;
 
-    public Transform StartLine => _startLine;
-
-    public Transform EndLine => _endLine;
-
     public UnityAction<Vector3> LaserHitted;
     private bool _isSwordHitted = false;
 
     private void Start()
     {
-        _redLine = _redRay.GetComponent<RedLine>();
         _lineRenderer.SetPosition(0, transform.position);
-        _lineRenderer.SetPosition(1, new Vector3(_slicerTransfrom.position.x, _slicerTransfrom.position.y, transform.position.z) );     
-    }
-
-    private void OnEnable()
-    {
-        _firstListener.SwordHittedAction += OnTriggered;
-        _firstListener.MissSwordAction += OnMissSword;
-        _secondListener.SwordHittedAction += OnTriggerRay;
-
-    }
-
-    private void OnDisable()
-    {
-        _firstListener.SwordHittedAction -= OnTriggered;
-        _firstListener.MissSwordAction -= OnMissSword;
-        _secondListener.SwordHittedAction -= OnTriggerRay;
+        _lineRenderer.SetPosition(1, new Vector3(_slicerTransfrom.position.x, _slicerTransfrom.position.y, transform.position.z));
     }
 
     private void Update()
@@ -114,39 +83,5 @@ public class Laser : MonoBehaviour
             
         LaserHitted?.Invoke(_slicerTransfrom.transform.position);
         _slicer.Slice();
-    }
-
-    private void OnTriggered(Collider collider)
-    {
-        _model.DisableMove();
-        _greenLine.enabled = false;
-    }
-
-    private void OnMissSword()
-    {
-        if (Mathf.Abs(_startLine.position.x - transform.position.x) < 0.01f)
-        {
-            _points.AddPoint();
-        }
-
-        _model.SetDefaultMoveSpeed();
-        _model.SetDefaultPosition();
-        _model.EnableMove();
-        _model.SetSpeed(3);
-        _isTriggered = false;
-    }
-
-    private void OnTriggerRay(Collider collider)
-    {
-        _isTriggered = true;
-        _swordMover.SetSlowMoveSpeed();
-        _swordMover.EnableMove();
-        _swordMover.SetSpeed(2.5f);
-        _redRay.SetActive(true);
-        _model.transform.rotation = Quaternion.Euler(0, 0, 0);
-        _redLine.DrowLine();
-        _greenLine.enabled = true;
-        _greenLine.DrawGreenLine(_startLine.position, _endLine.position);
-        _model.RotateSword(-1 * (180 / Mathf.PI) * Mathf.Atan((_endLine.position.x - _startLine.position.x) / (_endLine.position.z - _startLine.position.z)));
     }
 }

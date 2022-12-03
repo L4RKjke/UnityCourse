@@ -28,7 +28,7 @@ public class MenuButtonsController : MonoBehaviour
     public void OnExitSettingsButton()
     {
         _optionsPanel.SetActive(false);
-        PlayerPrefs.SetFloat("MusicVolume", _audioController.Volume);
+        PlayerPrefs.SetFloat(AllStrings.MusicVolume, _audioController.Volume);
         PlayerPrefs.Save();
     }
 
