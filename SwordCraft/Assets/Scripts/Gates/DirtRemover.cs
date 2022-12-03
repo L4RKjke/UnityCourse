@@ -3,23 +3,22 @@ using UnityEngine;
 public class DirtRemover : Gate
 {
     [SerializeField] private DirtController _generator;
-    [SerializeField] private SwordTrigger _listener;
 
     private void Start()
     {
-        if (_listener != null)
+        if (Listener != null)
         {
-            _listener.MissSwordAction += CleanDirt;
-            _listener.SwordHittedAction += ActivateGate;
+            Listener.MissSwordAction += CleanDirt;
+            Listener.SwordHittedAction += ActivateGate;
         }
     }
 
     private void OnDisable()
     {
-        if (_listener != null)
+        if (Listener != null)
         {
-            _listener.MissSwordAction -= CleanDirt;
-            _listener.SwordHittedAction -= ActivateGate;
+            Listener.MissSwordAction -= CleanDirt;
+            Listener.SwordHittedAction -= ActivateGate;
         }
     }
 

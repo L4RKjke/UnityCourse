@@ -14,16 +14,19 @@ public class LevelLoader: MonoBehaviour
 
     public void LoadNextLevel()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(_sceneIndex+1);
     }
 
     public void LoadCurrentLevel()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(_sceneIndex);
     }
 
     public void LoadMainMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(_menuIndex);
     }
 }

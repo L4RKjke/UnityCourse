@@ -2,25 +2,25 @@ using UnityEngine;
 
 public class RustRemover : Gate
 {
+    [SerializeField] private DirtController _generator;
     [SerializeField] private SwordMaterials _swordMaterial;
-    [SerializeField] private SwordTrigger _listener;
     [SerializeField] private Sword _sword;
 
-    private void OnEnable()
+    private void Start()
     {
-        if (_listener != null)
+        if (Listener != null)
         {
-            _listener.MissSwordAction += SetNewMaterial;
-            _listener.SwordHittedAction -= ActivateGate;
+            Listener.MissSwordAction += SetNewMaterial;
+            Listener.SwordHittedAction += ActivateGate;
         }
     }
 
     private void OnDisable()
     {
-        if (_listener != null)
+        if (Listener != null)
         {
-            _listener.MissSwordAction -= SetNewMaterial;
-            _listener.SwordHittedAction += ActivateGate;
+            Listener.MissSwordAction -= SetNewMaterial;
+            Listener.SwordHittedAction -= ActivateGate;
         }
     }
 
@@ -31,4 +31,3 @@ public class RustRemover : Gate
         EnableMove();
     }
 }
-

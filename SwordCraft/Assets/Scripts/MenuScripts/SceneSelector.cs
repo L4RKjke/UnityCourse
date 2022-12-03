@@ -12,6 +12,5 @@ public class SceneSelector : MonoBehaviour
     public void LoadScene(int numberOfScene)
     {
         SceneManager.LoadScene(numberOfScene);
-        Time.timeScale = 1;
     }
 }

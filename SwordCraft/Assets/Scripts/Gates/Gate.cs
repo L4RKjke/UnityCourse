@@ -4,8 +4,11 @@ public class Gate : MonoBehaviour
 {
     [SerializeField] private GameObject _blueSpray;
     [SerializeField] private PlatformMover _platformMover;
+    [SerializeField] private SwordTrigger _listener;
 
-    protected void ActivateGate(Collider sword)
+    protected SwordTrigger Listener => _listener;
+
+    protected void ActivateGate()
     {
         DisableMove();
         _platformMover.DisableMove();

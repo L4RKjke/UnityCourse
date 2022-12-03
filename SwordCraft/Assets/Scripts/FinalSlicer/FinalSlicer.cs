@@ -28,7 +28,7 @@ public class FinalSlicer : MonoBehaviour
         _model.SetSpeed(2f);
     }
 
-    private void ActivateParticles(Collider collider)
+    private void ActivateParticles()
     {
         _model.SetSpeed(0.6f);
         _particles.SetActive(true);
