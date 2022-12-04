@@ -28,7 +28,7 @@ public class FinalSlicer : MonoBehaviour
         _model.SetSpeed(2f);
     }
 
-    private void ActivateParticles()
+    private void ActivateParticles(Sword sword)
     {
         _model.SetSpeed(0.6f);
         _particles.SetActive(true);

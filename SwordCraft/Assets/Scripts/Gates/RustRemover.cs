@@ -4,7 +4,6 @@ public class RustRemover : Gate
 {
     [SerializeField] private DirtController _generator;
     [SerializeField] private SwordMaterials _swordMaterial;
-    [SerializeField] private Sword _sword;
 
     private void Start()
     {
@@ -26,7 +25,7 @@ public class RustRemover : Gate
 
     private void SetNewMaterial()
     {
-        _sword.SwordRenderer.sharedMaterial = _swordMaterial.Metal;
+        Sword.SwordRenderer.sharedMaterial = _swordMaterial.Metal;
         _swordMaterial.DeleteRust();
         EnableMove();
     }

@@ -6,10 +6,13 @@ public class Gate : MonoBehaviour
     [SerializeField] private PlatformMover _platformMover;
     [SerializeField] private SwordTrigger _listener;
 
+    protected Sword Sword { get; private set; }
+
     protected SwordTrigger Listener => _listener;
 
-    protected void ActivateGate()
+    protected void ActivateGate(Sword sword)
     {
+        Sword = sword;
         DisableMove();
         _platformMover.DisableMove();
         _platformMover.SetSpeed(_platformMover.SlowSpeed);

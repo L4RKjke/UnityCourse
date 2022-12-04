@@ -12,9 +12,8 @@ public class Laser : MonoBehaviour
     [SerializeField] private LineRenderer _lineRenderer;
 
     private int _sliceDirection;
-    private bool _isTriggered = false;
 
-    private readonly float _autoAimDistance = 0.05f;
+    private readonly float _autoAimDistance = 0.03f;
     private readonly float _autoAimSpeed = 12;
     private readonly int _rightSliceYAngel = 180;
     private readonly int _leftSliceYAngel = 0;
@@ -35,7 +34,7 @@ public class Laser : MonoBehaviour
         {
             if (hit.collider.TryGetComponent<Sword>(out _) || hit.collider.TryGetComponent<Rock>(out _) || hit.collider.TryGetComponent<SwordTriggerLine>(out _))
             {
-                ActivateAimHelper();
+                MoveToCentre();
                 _isSwordHitted = true;
             }
 
@@ -47,9 +46,9 @@ public class Laser : MonoBehaviour
         }
     }
 
-    private void ActivateAimHelper()
+    private void MoveToCentre()
     {
-        if (_isTriggered && Mathf.Abs(_startLine.position.x - transform.position.x) < _autoAimDistance)
+        if (Mathf.Abs(_startLine.position.x - transform.position.x) < _autoAimDistance)
         {
             _swordMover.transform.position = new Vector3((_swordMover.transform.position.x - (_startLine.position.x - transform.position.x) * Time.deltaTime * _autoAimSpeed),
                 _swordMover.transform.position.y, _swordMover.transform.position.z);

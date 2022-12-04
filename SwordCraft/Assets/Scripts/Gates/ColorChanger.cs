@@ -4,7 +4,6 @@ public class ColorChanger : Gate
 {
     [SerializeField] private Color _color;
     [SerializeField] private DirtController _dirt;
-    [SerializeField] private Sword _sword;
 
 
     private void OnEnable()
@@ -21,7 +20,7 @@ public class ColorChanger : Gate
 
     private void SetNewColor()
     {
-        _sword.SwordMeshRenderer.material.color = _color;
+        Sword.SwordMeshRenderer.material.color = _color;
         _dirt.PaintRocks(_color);
         EnableMove();
     }

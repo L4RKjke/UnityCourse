@@ -35,7 +35,7 @@ public class AimHelper : MonoBehaviour
         _secondListener.SwordHittedAction -= OnTriggerRay;
     }
 
-    private void OnTriggered()
+    private void OnTriggered(Sword sword)
     {
         _model.DisableMove();
         _greenLine.enabled = false;
@@ -54,7 +54,7 @@ public class AimHelper : MonoBehaviour
         _model.SetSpeed(3);
     }
 
-    private void OnTriggerRay()
+    private void OnTriggerRay(Sword sword)
     {
         _swordMover.SetSlowMoveSpeed();
         _swordMover.EnableMove();
