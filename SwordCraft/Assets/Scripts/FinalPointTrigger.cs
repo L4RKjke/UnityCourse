@@ -56,7 +56,7 @@ public class FinalPointTrigger : MonoBehaviour
         if (_result.NumberOfStars == 3 && PlayerPrefs.GetInt(AllStrings.MaxHandle) <= _maxHandleIndex)
         {
             _finalUI[_finalUI.Length - 1].SetActive(true);
-            PlayerPrefs.SetInt(AllStrings.MaxHandle, PlayerPrefs.GetInt(AllStrings.MaxHandle + 1));
+            PlayerPrefs.SetInt(AllStrings.MaxHandle, PlayerPrefs.GetInt(AllStrings.MaxHandle)+1);
         }
 
         if (PlayerPrefs.GetInt(AllStrings.MaxLevel) < _currentLevelIndex)

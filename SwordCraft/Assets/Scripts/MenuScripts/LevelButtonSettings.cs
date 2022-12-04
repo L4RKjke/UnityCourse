@@ -12,6 +12,7 @@ public class LevelButtonSettings : MonoBehaviour
 
     private void OnEnable()
     {
+        _txtMPro.text = PlayerPrefs.GetInt(AllStrings.Coins).ToString();
         _shop.UpdateCoinEvent += UpdateCoinsText;
     }
 
@@ -22,8 +23,6 @@ public class LevelButtonSettings : MonoBehaviour
 
     private void Start()
     {
-        UpdateCoinsText();
-
         for (int i = 1; i < _lvlButtons.Length; i++)
         {
             if (_lvlButtons[i].TryGetComponent(out Button button))
@@ -50,6 +49,6 @@ public class LevelButtonSettings : MonoBehaviour
 
     private void UpdateCoinsText()
     {
-        _txtMPro.text = PlayerPrefs.GetInt("Coins").ToString();
+        _txtMPro.text = PlayerPrefs.GetInt(AllStrings.Coins).ToString();
     }
 }
